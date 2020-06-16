@@ -20,6 +20,8 @@
 
 映射配置: [Viper](https://github.com/spf13/viper)
 
+实时加载: [Air](https://github.com/cosmtrek/air)
+
 ## 安装
 
 1. 首先安装MySQL
@@ -28,8 +30,7 @@
 4. 执行以下命令运行该api项目
 
     ```sh
-    $ go build
-    $ ./KarlMalone
+    $ air
     ```
 
 ## 项目结构

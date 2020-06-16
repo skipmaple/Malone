@@ -17,6 +17,9 @@ default: &default
   logger:
     Dir: ./log
 
+  server:
+    Port: :5288
+
 dev:
   <<: *default
 

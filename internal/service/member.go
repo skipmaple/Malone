@@ -3,90 +3,60 @@
 package service
 
 import (
-	"KarlMalone/internal/db"
-	"KarlMalone/internal/model"
-	"KarlMalone/pkg/logger"
-	"KarlMalone/pkg/util"
-	"encoding/json"
-	"errors"
-	"fmt"
-	"math/rand"
-
-	"github.com/jinzhu/gorm"
-
-	"go.uber.org/zap"
+	"KarlMalone/internal/models"
 )
 
-type MemberService struct{}
+type Member struct {
+	ID       int64  `form:"id" json:"id" xml:"id"`
+	PhoneNum string `form:"id" json:"phone_num" xml:"phone_num"`
+	Password string `form:"password" json:"password" xml:"password"`
+	Avatar   string `form:"avatar" json:"avatar" xml:"avatar"`
+	Gender   string `form:"gender" json:"gender" xml:"gender"`
+	Nickname string `form:"nickname" json:"nickname" xml:"nickname"`
+	Salt     string
+	Online   int
+	Token    string
+	Memo     string `form:"memo" json:"memo" xml:"memo"`
+
+	CreatedAt int
+	UpdatedAt int
+	DeletedAt int
+}
 
 // member register
-func (s *MemberService) Register(phoneNum, plainPwd, nickname, avatar, gender string) (model.Member, error) {
-	member := model.Member{}
-	if err := db.Orm.Where("phone_num = ?", phoneNum).Take(&member).Error; err != nil && !gorm.IsRecordNotFoundError(err) {
-		recordErrLog("member register service find member error", member, err)
-		return member, err
+func (m *Member) Register() (models.Member, error) {
+	data := map[string]interface{}{
+		"phone_num": m.PhoneNum,
+		"plain_pwd": m.Password,
+		"nickname":  m.Nickname,
+		"avatar":    m.Avatar,
+		"gender":    m.Gender,
 	}
 
-	if member.ID > 0 {
-		err := errors.New("phone number has been registered")
-		recordErrLog("member register service member phone_num error", member, err)
-		return member, err
-	}
+	member, err := models.RegisterMember(data)
 
-	member.PhoneNum = phoneNum
-	member.Avatar = avatar
-	member.Gender = gender
-	member.Nickname = nickname
-	member.Salt = fmt.Sprintf("%06d", rand.Int31n(10000))
-	member.Password = util.MakePwd(plainPwd, member.Salt)
-
-	if err := db.Orm.Create(&member).Error; err != nil {
-		recordErrLog("member register service create member error", member, err)
-		return member, err
-	}
-
-	return member, nil
+	return member, err
 }
 
 // member login
-func (s *MemberService) Login(phoneNum, plainPwd string) (model.Member, error) {
-	member := model.Member{}
-	if err := db.Orm.Where("phone_num = ?", phoneNum).First(&member).Error; err != nil {
-		recordErrLog("member login service find member error", member, err)
-		return member, err
-	}
-	if member.ID == 0 {
-		err := errors.New("member not exist")
-		return member, err
-	}
-
-	if !util.ValidatePwd(plainPwd, member.Salt, member.Password) {
-		//logger.Debug("member login service validate password not equal", zap.Any("plainPwd", plainPwd), zap.String("salt", member.Salt), zap.String("password", member.Password))
-		return member, errors.New("password wrong")
-	}
-
-	// refresh member's login token
-	member.Token = util.GenRandomStr(32)
-	if err := db.Orm.Save(&member).Error; err != nil {
-		recordErrLog("member login service update member error", member, err)
-		return member, err
-	}
-
-	return member, nil
+func (m *Member) Login() (models.Member, error) {
+	return models.LoginMember(map[string]interface{}{
+		"phone_num": m.PhoneNum,
+		"plain_pwd": m.Password,
+	})
 }
 
 // find member by ID
-func (s *MemberService) Find(memberId uint) (model.Member, error) {
-	member := model.Member{}
-	if err := db.Orm.First(&member, memberId).Error; err != nil {
-		logger.Error("member find service find member error", zap.Uint("memberId", memberId), zap.String("reason", err.Error()))
-		return model.Member{}, err
-	}
-
-	return member, nil
+func (m *Member) Find() models.Member {
+	return models.FindMember(m.ID)
 }
 
-func recordErrLog(msg string, member model.Member, err error) {
-	jMember, _ := json.Marshal(member)
-	logger.Error(msg, zap.String("member", string(jMember)), zap.String("reason", err.Error()))
+// search member by phone_num
+func (m *Member) FindByPhoneNum() models.Member {
+	return models.FindMemberByPhoneNum(m.PhoneNum)
+}
+
+// search member by nickname
+func (m *Member) FindByNickname() models.Member {
+	return models.FindMemberByNickname(m.Nickname)
 }
