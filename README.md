@@ -22,6 +22,8 @@
 
 实时加载: [Air](https://github.com/cosmtrek/air)
 
+web框架: [Gin](https://github.com/gin-gonic/gin)
+
 ## 安装
 
 1. 首先安装MySQL
