@@ -38,45 +38,32 @@
 ```
     .
     ├── api
+    │   └── routes  // 路由信息
     ├── assets
-    │   ├── attach
-    │   ├── css
-    │   ├── fonts
-    │   ├── images
-    │   ├── js
-    │   └── plugins
     ├── build
     │   ├── ci
     │   └── package
-    ├── cmd
-    ├── config
+    ├── cmd         // 项目启动入口
+    │   ├── api_test
+    │   └── base
+    ├── config      // 配置信息
     ├── docs
     ├── internal
-    │   ├── args
-    │   ├── controller
-    │   ├── db
-    │   ├── model
-    │   ├── service
-    │   └── view
-    ├── log
+    │   ├── models  // 模型
+    │   └── service // 服务
+    ├── log         // 日志输出
     │   └── event
-    ├── pkg
-    │   ├── logger
-    │   └── util
-    ├── resources
-    ├── sql
-    └── third_party
+    ├── pkg         // 公用包
+    │   ├── app     // 应用响应
+    │   ├── e       // 错误码
+    │   ├── logger  // 日志配置 
+    │   └── util    // 工具包
+    ├── resources   // 上传文件保存目录
+    ├── sql         // 建表sql
+    ├── third_party
+    └── tmp
+
 ```
-
-api:          服务对外提供的grpc接口(待写)
-
-config:       服务配置
-
-internal:     服务私有代码
-
-pkg:          服务共有代码
-
-sql:          项目sql文件
 
 ## 相关仓库
 
