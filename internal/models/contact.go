@@ -26,7 +26,7 @@ func AddFriend(data map[string]interface{}) error {
 	}
 
 	friend := Contact{}
-	db.Where("owner_id = ? AND dst_obj = ? And cat = ?", ownerId, dstId, CatIndividual).Take(&friend)
+	db.Where("owner_id = ? AND dst_id = ? And cat = ?", ownerId, dstId, CatIndividual).Take(&friend)
 	if friend.ID > 0 {
 		return errors.New("friends have been added before")
 	}
