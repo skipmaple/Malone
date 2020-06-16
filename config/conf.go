@@ -4,16 +4,18 @@
 package config
 
 import (
-	"github.com/spf13/viper"
 	"log"
 	"os"
 	"time"
+
+	"github.com/spf13/viper"
 )
 
 var (
 	Database database
 	Redis    redis
 	Logger   logger
+	Server   server
 )
 
 var cfgViper = func() *viper.Viper {
@@ -49,6 +51,10 @@ type logger struct {
 	Dir string
 }
 
+type server struct {
+	Port string
+}
+
 func init() {
 	env := os.Getenv("malone_env")
 	switch env {
@@ -64,6 +70,7 @@ func initConf(env string) {
 	bindingConfig(cfg.Sub("database"), &Database)
 	bindingConfig(cfg.Sub("redis"), &Redis)
 	bindingConfig(cfg.Sub("logger"), &Logger)
+	bindingConfig(cfg.Sub("server"), &Server)
 }
 
 func bindingConfig(cfg *viper.Viper, rawVal interface{}) {
