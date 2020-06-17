@@ -17,7 +17,16 @@ import (
 	"go.uber.org/zap"
 )
 
-// add friend
+// @Summary add_friend
+// @Description member add friend
+// @Accept multipart/form-data
+// @Produce  json
+// @Param owner_id formData string true "OwnerId"
+// @Param dst_id formData string true "DstId"
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
+// @Failure 500 {object} app.Response
+// @Router /v1/contacts/add_friend [post]
 func addFriend(c *gin.Context) {
 	r := app.Gin{C: c}
 
@@ -31,6 +40,7 @@ func addFriend(c *gin.Context) {
 	friend := models.FindMember(dstId)
 	if friend.ID == 0 {
 		r.Response(http.StatusInternalServerError, e.ERROR_NOT_EXIST_MEMBER, nil)
+		return
 	}
 
 	contact := service.Contact{
@@ -45,7 +55,14 @@ func addFriend(c *gin.Context) {
 	}
 }
 
-// load friend list
+// @Summary load_friend
+// @Description load friend list
+// @Produce  json
+// @Param owner_id query string true "OwnerId"
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
+// @Failure 500 {object} app.Response
+// @Router /v1/contacts/load_friend [get]
 func loadFriend(c *gin.Context) {
 	r := app.Gin{C: c}
 	ownerId, _ := strconv.ParseInt(c.Query("owner_id"), 10, 64)
@@ -56,7 +73,18 @@ func loadFriend(c *gin.Context) {
 	r.Response(http.StatusOK, e.SUCCESS, members)
 }
 
-// create group
+// @Summary create_group
+// @Description create group
+// @Accept multipart/form-data
+// @Produce  json
+// @Param owner_id formData string true "OwnerId"
+// @Param name formData string true "GroupName"
+// @Param icon formData string false "icon"
+// @Param memo formData string false "memo"
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
+// @Failure 500 {object} app.Response
+// @Router /v1/contacts/create_group [post]
 func createGroup(c *gin.Context) {
 	r := app.Gin{C: c}
 	group := service.Group{}
@@ -72,7 +100,16 @@ func createGroup(c *gin.Context) {
 	}
 }
 
-// join group
+// @Summary join_group
+// @Description join group
+// @Accept multipart/form-data
+// @Produce  json
+// @Param owner_id formData string true "OwnerId"
+// @Param name formData string true "GroupName"
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
+// @Failure 500 {object} app.Response
+// @Router /v1/contacts/join_group [post]
 func joinGroup(c *gin.Context) {
 	r := app.Gin{C: c}
 	groupName := c.PostForm("name")
@@ -99,7 +136,14 @@ func joinGroup(c *gin.Context) {
 	}
 }
 
-// load group list
+// @Summary load_group
+// @Description load group list
+// @Produce  json
+// @Param owner_id query string true "OwnerId"
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
+// @Failure 500 {object} app.Response
+// @Router /v1/contacts/load_group [get]
 func loadGroup(c *gin.Context) {
 	r := app.Gin{C: c}
 	ownerId, _ := strconv.ParseInt(c.Query("owner_id"), 10, 64)

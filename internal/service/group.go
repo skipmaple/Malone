@@ -25,7 +25,6 @@ func (g *Group) CreateGroup() (resGroup models.Group, err error) {
 		"name":     g.Name,
 		"owner_id": g.OwnerId,
 		"icon":     g.Icon,
-		"cat":      g.Cat,
 		"memo":     g.Memo,
 	}
 	return models.CreateGroup(data)

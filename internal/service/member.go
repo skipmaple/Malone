@@ -8,7 +8,7 @@ import (
 
 type Member struct {
 	ID       int64  `form:"id" json:"id" xml:"id"`
-	PhoneNum string `form:"id" json:"phone_num" xml:"phone_num"`
+	PhoneNum string `form:"phone_num" json:"phone_num" xml:"phone_num"`
 	Password string `form:"password" json:"password" xml:"password"`
 	Avatar   string `form:"avatar" json:"avatar" xml:"avatar"`
 	Gender   string `form:"gender" json:"gender" xml:"gender"`
@@ -31,6 +31,7 @@ func (m *Member) Register() (models.Member, error) {
 		"nickname":  m.Nickname,
 		"avatar":    m.Avatar,
 		"gender":    m.Gender,
+		"memo":      m.Memo,
 	}
 
 	member, err := models.RegisterMember(data)

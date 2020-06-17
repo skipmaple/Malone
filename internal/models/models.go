@@ -14,10 +14,10 @@ import (
 var db *gorm.DB
 
 type Model struct {
-	ID        int64 `gorm:"primary_key" json:"id"`
-	CreatedAt int   `json:"created_at"`
-	UpdatedAt int   `json:"modified_at"`
-	DeletedAt int   `json:"deleted_at"`
+	ID        int64      `gorm:"primary_key" json:"id"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
+	DeletedAt *time.Time `json:"deleted_at" sql:"index"`
 }
 
 // init mysql connection by gorm
@@ -66,16 +66,17 @@ func CloseDB() {
 // updateTimeStampForCreateCallback will set `CreatedAt`, `UpdatedAt` when creating
 func updateTimeStampForCreateCallback(scope *gorm.Scope) {
 	if !scope.HasError() {
-		nowTime := time.Now().Unix()
-		if createTimeField, ok := scope.FieldByName("CreatedAt"); ok {
-			if createTimeField.IsBlank {
-				_ = createTimeField.Set(nowTime)
+		now := time.Now()
+
+		if createdAtField, ok := scope.FieldByName("CreatedAt"); ok {
+			if createdAtField.IsBlank {
+				_ = createdAtField.Set(now)
 			}
 		}
 
-		if updateTimeField, ok := scope.FieldByName("UpdatedAt"); ok {
-			if updateTimeField.IsBlank {
-				_ = updateTimeField.Set(nowTime)
+		if updatedAtField, ok := scope.FieldByName("UpdatedAt"); ok {
+			if updatedAtField.IsBlank {
+				_ = updatedAtField.Set(now)
 			}
 		}
 	}
@@ -84,7 +85,7 @@ func updateTimeStampForCreateCallback(scope *gorm.Scope) {
 // updateTimeStampForUpdateCallback will set `ModifiedOn` when updating
 func updateTimeStampForUpdateCallback(scope *gorm.Scope) {
 	if _, ok := scope.Get("gorm:update_column"); !ok {
-		_ = scope.SetColumn("UpdatedAt", time.Now().Unix())
+		_ = scope.SetColumn("UpdatedAt", time.Now())
 	}
 }
 
@@ -103,7 +104,7 @@ func deleteCallback(scope *gorm.Scope) {
 				"UPDATE %v SET %v=%v%v%v",
 				scope.QuotedTableName(),
 				scope.Quote(deletedAtField.DBName),
-				scope.AddToVars(time.Now().Unix()),
+				scope.AddToVars(time.Now()),
 				addExtraSpaceIfExist(scope.CombinedConditionSql()),
 				addExtraSpaceIfExist(extraOption),
 			)).Exec()

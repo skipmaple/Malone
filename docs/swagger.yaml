@@ -1,0 +1,262 @@
+definitions:
+  app.Response:
+    properties:
+      code:
+        type: integer
+      data:
+        type: object
+      msg:
+        type: string
+    type: object
+info:
+  contact:
+    email: skipmaple@gmail.com
+    name: Drew Lee
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Malone API
+  version: 1.0-Beta
+paths:
+  /v1/contacts/add_friend:
+    post:
+      consumes:
+      - multipart/form-data
+      description: member add friend
+      parameters:
+      - description: OwnerId
+        in: formData
+        name: owner_id
+        required: true
+        type: string
+      - description: DstId
+        in: formData
+        name: dst_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: add_friend
+  /v1/contacts/create_group:
+    post:
+      consumes:
+      - multipart/form-data
+      description: create group
+      parameters:
+      - description: OwnerId
+        in: formData
+        name: owner_id
+        required: true
+        type: string
+      - description: GroupName
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: icon
+        in: formData
+        name: icon
+        type: string
+      - description: memo
+        in: formData
+        name: memo
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: create_group
+  /v1/contacts/join_group:
+    post:
+      consumes:
+      - multipart/form-data
+      description: join group
+      parameters:
+      - description: OwnerId
+        in: formData
+        name: owner_id
+        required: true
+        type: string
+      - description: GroupName
+        in: formData
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: join_group
+  /v1/contacts/load_friend:
+    get:
+      description: load friend list
+      parameters:
+      - description: OwnerId
+        in: query
+        name: owner_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: load_friend
+  /v1/contacts/load_group:
+    get:
+      description: load group list
+      parameters:
+      - description: OwnerId
+        in: query
+        name: owner_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: load_group
+  /v1/members/login:
+    post:
+      consumes:
+      - multipart/form-data
+      description: member login
+      parameters:
+      - description: PhoneNum
+        in: formData
+        name: phone_num
+        required: true
+        type: string
+      - description: Password
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: login
+  /v1/members/register:
+    post:
+      consumes:
+      - multipart/form-data
+      description: member register
+      parameters:
+      - description: PhoneNum
+        in: formData
+        name: phone_num
+        required: true
+        type: string
+      - description: Password
+        in: formData
+        name: password
+        required: true
+        type: string
+      - description: Nickname
+        in: formData
+        name: nickname
+        required: true
+        type: string
+      - default: U
+        description: Gender(Male Female Unknown)
+        enum:
+        - M
+        - F
+        - U
+        in: formData
+        name: gender
+        required: true
+        type: string
+      - description: Avatar
+        in: formData
+        name: avatar
+        type: string
+      - description: Memo
+        in: formData
+        name: memo
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: register
+swagger: "2.0"

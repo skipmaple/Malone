@@ -6,7 +6,7 @@ import "github.com/gin-gonic/gin"
 
 func Handler(r *gin.RouterGroup) {
 	{
-		r.GET("/members/login", login)
-		r.GET("/members/register", register)
+		r.POST("/members/login", login)
+		r.POST("/members/register", register)
 	}
 }

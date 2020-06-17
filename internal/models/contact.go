@@ -2,7 +2,9 @@
 
 package models
 
-import "errors"
+import (
+	"errors"
+)
 
 const (
 	CatIndividual = 0x01
@@ -49,11 +51,11 @@ func AddFriend(data map[string]interface{}) error {
 		DstId:   ownerId,
 		Cat:     CatIndividual,
 	}
-	if err := tx.Create(contact1).Error; err != nil {
+	if err := tx.Create(&contact1).Error; err != nil {
 		tx.Rollback()
 		return err
 	}
-	if err := tx.Create(contact2).Error; err != nil {
+	if err := tx.Create(&contact2).Error; err != nil {
 		tx.Rollback()
 		return err
 	}
