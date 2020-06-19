@@ -52,6 +52,7 @@ func RegisterMember(data map[string]interface{}) (Member, error) {
 	member.Avatar = data["avatar"].(string)
 	member.Gender = data["gender"].(string)
 	member.Nickname = data["nickname"].(string)
+	member.Memo = data["memo"].(string)
 	member.Salt = fmt.Sprintf("%06d", rand.Int31n(10000))
 	member.Password = util.MakePwd(data["plain_pwd"].(string), member.Salt)
 

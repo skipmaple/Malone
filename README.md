@@ -24,6 +24,8 @@
 
 web框架: [Gin](https://github.com/gin-gonic/gin)
 
+api文档: [swag](https://github.com/swaggo/swag)
+
 ## 安装
 
 1. 首先安装MySQL
@@ -34,6 +36,7 @@ web框架: [Gin](https://github.com/gin-gonic/gin)
     ```sh
     $ air
     ```
+5. 浏览器查看swagger api文档: `localhost:[your_port]/swagger/index.html`  (备注：[your_port] 默认为 5288)
 
 ## 项目结构
 项目结构遵循 https://github.com/golang-standards/project-layout

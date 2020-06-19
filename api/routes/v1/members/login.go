@@ -3,6 +3,7 @@
 package members
 
 import (
+	"KarlMalone/internal/models"
 	"KarlMalone/internal/service"
 	"KarlMalone/pkg/app"
 	"KarlMalone/pkg/e"
@@ -11,16 +12,30 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// member login
+// @Summary login
+// @Description member login
+// @Accept multipart/form-data
+// @Produce  json
+// @Param phone_num formData string true "PhoneNum"
+// @Param password formData string true "Password"
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
+// @Failure 500 {object} app.Response
+// @Router /v1/members/login [post]
 func login(c *gin.Context) {
 	r := app.Gin{C: c}
-
-	phoneNum := c.PostForm("phone_num")
-	plainPwd := c.PostForm("password")
+	member := models.Member{}
+	if err := c.ShouldBind(&member); err != nil {
+		r.Response(http.StatusInternalServerError, e.ERROR, err)
+		return
+	}
+	phoneNum := member.PhoneNum
+	plainPwd := member.Password
 
 	// validate parameters
 	if len(phoneNum) == 0 || len(plainPwd) == 0 {
 		r.Response(http.StatusBadRequest, e.INVALID_PARAMS, nil)
+		return
 	}
 
 	m := service.Member{

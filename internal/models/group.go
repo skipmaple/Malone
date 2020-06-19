@@ -59,8 +59,8 @@ func CreateGroup(data map[string]interface{}) (group Group, err error) {
 	name := data["name"].(string)
 	ownerId := data["owner_id"].(int64)
 	icon := data["icon"].(string)
-	cat := data["cat"].(int)
 	memo := data["memo"].(string)
+	cat := GroupCategoryCom
 
 	if len(name) == 0 {
 		err = errors.New("no group name error")
@@ -72,7 +72,7 @@ func CreateGroup(data map[string]interface{}) (group Group, err error) {
 	}
 
 	var groupCount int
-	err = db.Where(&Group{OwnerId: ownerId}).Count(&groupCount).Error
+	err = db.Model(&Group{}).Where("owner_id = ?", ownerId).Count(&groupCount).Error
 	if err != nil {
 		return Group{}, err
 	}
