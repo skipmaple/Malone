@@ -114,7 +114,7 @@ modules.xml
 *.log
 
 # resources
-resources/
+#resources/
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
