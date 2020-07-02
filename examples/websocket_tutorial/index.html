@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        let socket = new WebSocket("ws://localhost:8080/ws")
+        console.log("Attempting Websocket Connection")
+
+        socket.onopen = () => {
+            console.log("Successfully Connnected")
+            // 发送数据到服务端
+            socket.send("Hi From The Client!")
+        }
+
+        socket.onclose = (event) => {
+            console.log("Socket Closed Connection: ", event)
+        }
+
+        // 接收数据
+        socket.onmessage = (event) => {
+            console.log(event);
+        }
+
+        socket.onerror = (error) => {
+            console.log("Socket Error: ", error)
+        }
+    </script>
+
+</body>
+</html>
