@@ -52,14 +52,14 @@ api文档: [swag](https://github.com/swaggo/swag)
 func register(c *gin.Context) {
 	r := app.Gin{C: c}
 
-    // 创建Member结构体实例m
+        // 创建Member结构体实例m
 	m := service.Member{}
-    // 绑定请求参数到实例m
+        // 绑定请求参数到实例m
 	if err := c.ShouldBind(&m); err != nil {
 		r.Response(http.StatusBadRequest, e.INVALID_PARAMS, nil)
 	}
     
-    // 调用m实例的Register()服务方法
+        // 调用m实例的Register()服务方法
 	member, err := m.Register()
 	if err != nil {
 		r.Response(http.StatusInternalServerError, e.ERROR_REGISTER_MEMBER, nil)
@@ -73,7 +73,7 @@ func register(c *gin.Context) {
 ```go
 // ./internal/members.go
 func (m *Member) Register() (models.Member, error) {
-    // 把 绑定的参数 拼接一个data map
+        // 把 绑定的参数 拼接一个data map
 	data := map[string]interface{}{
 		"phone_num": m.PhoneNum,
 		"plain_pwd": m.Password,
@@ -83,7 +83,7 @@ func (m *Member) Register() (models.Member, error) {
 		"memo":      m.Memo,
 	}
 
-    // data传入model层RegisterMember方法执行创建(所有crud都在model层) 并返回创建后的member实例
+        // data传入model层RegisterMember方法执行创建(所有crud都在model层) 并返回创建后的member实例
 	member, err := models.RegisterMember(data)
 
 	return member, err
@@ -95,20 +95,20 @@ func (m *Member) Register() (models.Member, error) {
 // ./internal/models/member.go
 func RegisterMember(data map[string]interface{}) (Member, error) {
 	member := Member{}
-    // 查询数据库中是否存在该用户
+        // 查询数据库中是否存在该用户
 	if err := db.Where("phone_num = ?", data["phone_num"].(string)).Take(&member).Error; err != nil && !gorm.IsRecordNotFoundError(err) {
 		logger.Error("model member register find error", zap.String("phone_num", data["phone_num"].(string)), zap.String("error", err.Error()))
 		return Member{}, err
 	}
 
-    // id大于0表示存在该用户，返回注册失败
+        // id大于0表示存在该用户，返回注册失败
 	if member.ID > 0 {
 		err := errors.New("phone number has been registered")
 		logger.Error("model member register phone_num has been registered error", zap.String("phone_num", data["phone_num"].(string)), zap.String("error", err.Error()))
 		return Member{}, err
 	}
 
-    // 传参给新用户实例
+        // 传参给新用户实例
 	member.PhoneNum = data["phone_num"].(string)
 	member.Avatar = data["avatar"].(string)
 	member.Gender = data["gender"].(string)
@@ -117,7 +117,7 @@ func RegisterMember(data map[string]interface{}) (Member, error) {
 	member.Salt = fmt.Sprintf("%06d", rand.Int31n(10000)) // 随机生成密码盐值
 	member.Password = util.MakePwd(data["plain_pwd"].(string), member.Salt) // 执行加密保存
 
-    // 存入数据库，创建用户成功
+        // 存入数据库，创建用户成功
 	if err := db.Create(&member).Error; err != nil {
 		logger.Error("model member register create error", zap.Any("member", member), zap.String("error", err.Error()))
 		return Member{}, err
