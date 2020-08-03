@@ -13,6 +13,8 @@ type Member struct {
 	Avatar   string `form:"avatar" json:"avatar" xml:"avatar"`
 	Gender   string `form:"gender" json:"gender" xml:"gender"`
 	Nickname string `form:"nickname" json:"nickname" xml:"nickname"`
+	Email    string `form:"email" json:"email" xml:"email"`
+	Account  string `form:"account" json:"account" xml:"account"`
 	Salt     string
 	Online   int
 	Token    string
@@ -29,6 +31,8 @@ func (m *Member) Register() (models.Member, error) {
 		"phone_num": m.PhoneNum,
 		"plain_pwd": m.Password,
 		"nickname":  m.Nickname,
+		"email":     m.Email,
+		"account":   m.Account,
 		"avatar":    m.Avatar,
 		"gender":    m.Gender,
 		"memo":      m.Memo,
@@ -42,7 +46,7 @@ func (m *Member) Register() (models.Member, error) {
 // member login
 func (m *Member) Login() (models.Member, error) {
 	return models.LoginMember(map[string]interface{}{
-		"phone_num": m.PhoneNum,
+		"account":   m.Account,
 		"plain_pwd": m.Password,
 	})
 }
@@ -60,4 +64,9 @@ func (m *Member) FindByPhoneNum() models.Member {
 // search member by nickname
 func (m *Member) FindByNickname() models.Member {
 	return models.FindMemberByNickname(m.Nickname)
+}
+
+// search member by email
+func (m *Member) FindByEmail() models.Member {
+	return models.FindMemberByEmail(m.Email)
 }

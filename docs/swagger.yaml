@@ -178,9 +178,9 @@ paths:
       - multipart/form-data
       description: member login
       parameters:
-      - description: PhoneNum
+      - description: PhoneNum or Email
         in: formData
-        name: phone_num
+        name: account
         required: true
         type: string
       - description: Password
@@ -214,6 +214,10 @@ paths:
         in: formData
         name: phone_num
         required: true
+        type: string
+      - description: Email
+        in: formData
+        name: email
         type: string
       - description: Password
         in: formData

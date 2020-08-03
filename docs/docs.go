@@ -276,8 +276,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "PhoneNum",
-                        "name": "phone_num",
+                        "description": "PhoneNum or Email",
+                        "name": "account",
                         "in": "formData",
                         "required": true
                     },
@@ -328,6 +328,12 @@ var doc = `{
                         "name": "phone_num",
                         "in": "formData",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Email",
+                        "name": "email",
+                        "in": "formData"
                     },
                     {
                         "type": "string",
