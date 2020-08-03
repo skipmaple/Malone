@@ -16,7 +16,7 @@ import (
 // @Description member login
 // @Accept multipart/form-data
 // @Produce  json
-// @Param phone_num formData string true "PhoneNum"
+// @Param account formData string true "PhoneNum or Email"
 // @Param password formData string true "Password"
 // @Success 200 {object} app.Response
 // @Failure 400 {object} app.Response
@@ -29,17 +29,18 @@ func login(c *gin.Context) {
 		r.Response(http.StatusInternalServerError, e.ERROR, err)
 		return
 	}
-	phoneNum := member.PhoneNum
+	// account can be phone or email, code will judge it
+	account := c.PostForm("account")
 	plainPwd := member.Password
 
 	// validate parameters
-	if len(phoneNum) == 0 || len(plainPwd) == 0 {
+	if len(account) == 0 || len(plainPwd) == 0 {
 		r.Response(http.StatusBadRequest, e.INVALID_PARAMS, nil)
 		return
 	}
 
 	m := service.Member{
-		PhoneNum: phoneNum,
+		Account:  account,
 		Password: plainPwd,
 	}
 	member, err := m.Login()

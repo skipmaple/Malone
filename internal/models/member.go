@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"math/rand"
+	"strings"
 
 	"go.uber.org/zap"
 
@@ -28,6 +29,7 @@ type Member struct {
 	Avatar   string `gorm:"varchar(150)" json:"avatar" form:"avatar"`
 	Gender   string `gorm:"varchar(2)" json:"gender" form:"gender"`
 	Nickname string `gorm:"varchar(20)" json:"nickname" form:"nickname"`
+	Email    string `gorm:"varchar(20)" json:"email" form:"email"`
 	Salt     string `gorm:"varchar(10)" json:"-"`
 	Online   int    `gorm:"int(10)" json:"online"`
 	Token    string `gorm:"varchar(40)" json:"-"`
@@ -52,6 +54,7 @@ func RegisterMember(data map[string]interface{}) (Member, error) {
 	member.Avatar = data["avatar"].(string)
 	member.Gender = data["gender"].(string)
 	member.Nickname = data["nickname"].(string)
+	member.Email = data["email"].(string)
 	member.Memo = data["memo"].(string)
 	member.Salt = fmt.Sprintf("%06d", rand.Int31n(10000))
 	member.Password = util.MakePwd(data["plain_pwd"].(string), member.Salt)
@@ -66,9 +69,17 @@ func RegisterMember(data map[string]interface{}) (Member, error) {
 
 func LoginMember(data map[string]interface{}) (Member, error) {
 	member := Member{}
-	if err := db.Where("phone_num = ?", data["phone_num"].(string)).First(&member).Error; err != nil {
+
+	accountName := ""
+	if strings.HasSuffix(data["account"].(string), ".com") { // !!! can strengthen
+		accountName = "email"
+	} else {
+		accountName = "phone_num"
+	}
+	if err := db.Where(fmt.Sprintf("%s = ?", accountName), data["account"].(string)).First(&member).Error; err != nil {
 		return Member{}, err
 	}
+
 	if member.ID == 0 {
 		return Member{}, errors.New("member not exist")
 	}
@@ -103,5 +114,12 @@ func FindMemberByPhoneNum(phoneNum string) Member {
 func FindMemberByNickname(nickname string) Member {
 	member := Member{}
 	db.Where("nickname = ?", nickname).Take(&member)
+	return member
+}
+
+// FindMemberByNickname provides member by nickname
+func FindMemberByEmail(email string) Member {
+	member := Member{}
+	db.Where("email = ?", email).Take(&member)
 	return member
 }

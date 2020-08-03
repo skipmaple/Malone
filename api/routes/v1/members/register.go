@@ -16,6 +16,7 @@ import (
 // @Accept multipart/form-data
 // @Produce  json
 // @Param phone_num formData string true "PhoneNum"
+// @Param email formData string false "Email"
 // @Param password formData string true "Password"
 // @Param nickname formData string true "Nickname"
 // @Param gender formData string true "Gender(Male Female Unknown)" Enums(M, F, U) Default(U)
