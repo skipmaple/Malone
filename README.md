@@ -1,4 +1,4 @@
-# KarlMalone
+# Malone
 
 一个可以实现高并发的IM(及时通信) api项目
 
