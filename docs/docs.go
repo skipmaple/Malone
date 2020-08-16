@@ -139,6 +139,44 @@ var doc = `{
                 }
             }
         },
+        "/v1/contacts/find_group_members": {
+            "get": {
+                "description": "find group members by groupId",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "find_group_members",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "GroupId",
+                        "name": "group_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/contacts/join_group": {
             "post": {
                 "description": "join group",
@@ -237,6 +275,44 @@ var doc = `{
                         "type": "string",
                         "description": "OwnerId",
                         "name": "owner_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/members/find": {
+            "get": {
+                "description": "find member by id",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "find",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "MemberId",
+                        "name": "member_id",
                         "in": "query",
                         "required": true
                     }

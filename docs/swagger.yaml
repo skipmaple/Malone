@@ -90,6 +90,31 @@ paths:
           schema:
             $ref: '#/definitions/app.Response'
       summary: create_group
+  /v1/contacts/find_group_members:
+    get:
+      description: find group members by groupId
+      parameters:
+      - description: GroupId
+        in: query
+        name: group_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: find_group_members
   /v1/contacts/join_group:
     post:
       consumes:
@@ -172,6 +197,31 @@ paths:
           schema:
             $ref: '#/definitions/app.Response'
       summary: load_group
+  /v1/members/find:
+    get:
+      description: find member by id
+      parameters:
+      - description: MemberId
+        in: query
+        name: member_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: find
   /v1/members/login:
     post:
       consumes:

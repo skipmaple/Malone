@@ -8,5 +8,6 @@ func Handler(r *gin.RouterGroup) {
 	{
 		r.POST("/members/login", login)
 		r.POST("/members/register", register)
+		r.GET("/members/find", find)
 	}
 }

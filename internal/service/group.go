@@ -7,6 +7,7 @@ import (
 )
 
 type Group struct {
+	ID      int64  `form:"id" json:"id"`
 	Name    string `form:"name" json:"name"`
 	OwnerId int64  `form:"owner_id" json:"owner_id"`
 	Icon    string `form:"icon" json:"icon"`
@@ -28,4 +29,9 @@ func (g *Group) CreateGroup() (resGroup models.Group, err error) {
 		"memo":     g.Memo,
 	}
 	return models.CreateGroup(data)
+}
+
+// find members by groupId
+func (g *Group) FindGroupMembersByGroupId() []models.Member {
+	return models.FindGroupMembersByGroupId(g.ID)
 }

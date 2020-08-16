@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strconv"
 	"sync"
+	"time"
 
 	"github.com/gin-gonic/gin"
 
@@ -34,16 +35,17 @@ type Node struct {
 }
 
 type Message struct {
-	Id       int64  `json:"id,omitempty"`        //消息ID
-	MemberId int64  `json:"member_id,omitempty"` //谁发的
-	Cmd      int    `json:"cmd,omitempty"`       //群聊还是私聊
-	DstId    int64  `json:"dst_id,omitempty"`    //对端用户ID/群ID
-	Media    int    `json:"media,omitempty"`     //消息按照什么格式展示
-	Content  string `json:"content,omitempty"`   //消息内容
-	Pic      string `json:"pic,omitempty"`       //预览图片
-	Url      string `json:"url,omitempty"`       //服务的URL
-	Memo     string `json:"memo,omitempty"`      //简单描述
-	Amount   int    `json:"amount,omitempty"`    //其他和数字相关的
+	Id        int64     `json:"id,omitempty"`         // 消息ID
+	MemberId  int64     `json:"member_id,omitempty"`  // 谁发的
+	Cmd       int       `json:"cmd,omitempty"`        // 群聊还是私聊
+	DstId     int64     `json:"dst_id,omitempty"`     // 对端用户ID/群ID
+	Media     int       `json:"media,omitempty"`      // 消息按照什么格式展示
+	Content   string    `json:"content,omitempty"`    // 消息内容
+	Pic       string    `json:"pic,omitempty"`        // 预览图片
+	Url       string    `json:"url,omitempty"`        // 服务的URL
+	Memo      string    `json:"memo,omitempty"`       // 简单描述
+	Amount    int       `json:"amount,omitempty"`     // 其他和数字相关的
+	CreatedAt time.Time `json:"created_at,omitempty"` // 发送时间
 }
 
 func chat(c *gin.Context) {

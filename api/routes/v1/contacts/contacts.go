@@ -153,3 +153,21 @@ func loadGroup(c *gin.Context) {
 	groups := contact.FindGroup()
 	r.Response(http.StatusOK, e.SUCCESS, groups)
 }
+
+// @Summary find_group_members
+// @Description find group members by groupId
+// @Produce  json
+// @Param group_id query string true "GroupId"
+// @Success 200 {object} app.Response
+// @Failure 400 {object} app.Response
+// @Failure 500 {object} app.Response
+// @Router /v1/contacts/find_group_members [get]
+func findGroupMembers(c *gin.Context) {
+	r := app.Gin{C: c}
+	groupId, _ := strconv.ParseInt(c.Query("group_id"), 10, 64)
+	group := service.Group{
+		ID: groupId,
+	}
+	members := group.FindGroupMembersByGroupId()
+	r.Response(http.StatusOK, e.SUCCESS, members)
+}

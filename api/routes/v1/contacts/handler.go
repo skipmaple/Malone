@@ -11,5 +11,6 @@ func Handler(r *gin.RouterGroup) {
 		r.POST("/contacts/join_group", joinGroup)
 		r.GET("/contacts/load_friend", loadFriend)
 		r.GET("/contacts/load_group", loadGroup)
+		r.GET("/contacts/find_group_members", findGroupMembers)
 	}
 }

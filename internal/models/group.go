@@ -54,6 +54,19 @@ func FindGroupIds(ownerId int64) []int64 {
 	return groupIds
 }
 
+// Find members by groupId
+func FindGroupMembersByGroupId(groupId int64) (members []Member) {
+	contacts := make([]Contact, 0)
+	db.Where("dst_id = ? AND cat = ?", groupId, CatGroup).Find(&contacts)
+	for _, contact := range contacts {
+		member := Member{}
+		db.Where("id = ?", contact.OwnerId).Find(&member)
+		members = append(members, member)
+	}
+
+	return members
+}
+
 // CreateGroup
 func CreateGroup(data map[string]interface{}) (group Group, err error) {
 	name := data["name"].(string)
