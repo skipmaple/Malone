@@ -52,7 +52,8 @@ type logger struct {
 }
 
 type server struct {
-	Port string
+	Port      string
+	JwtSecret string
 }
 
 func init() {

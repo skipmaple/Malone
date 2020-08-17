@@ -7,13 +7,14 @@ import (
 	"KarlMalone/api/routes/v1/chats"
 	"KarlMalone/api/routes/v1/contacts"
 	"KarlMalone/api/routes/v1/members"
+	"KarlMalone/middleware"
 
 	"github.com/gin-gonic/gin"
 )
 
 func Handler(r *gin.Engine) {
 	v1 := r.Group("/v1")
-
+	v1.Use(middleware.JWT())
 	{
 		attaches.Handler(v1)
 		contacts.Handler(v1)

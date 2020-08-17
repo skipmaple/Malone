@@ -12,8 +12,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Summary find
-// @Description find member by id
+// @Summary Find member by member_id
+// @Description Find member by member_id
+// @Tags member
 // @Produce  json
 // @Param member_id query string true "MemberId"
 // @Success 200 {object} app.Response

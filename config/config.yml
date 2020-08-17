@@ -19,6 +19,7 @@ default: &default
 
   server:
     Port: :5288
+    JwtSecret: this_is_the_jwt_secrect
 
 dev:
   <<: *default

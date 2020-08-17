@@ -49,7 +49,8 @@ func fileUpload(c *gin.Context) {
 	err = c.SaveUploadedFile(file, filepath)
 	if err != nil {
 		r.Response(http.StatusInternalServerError, e.ERROR, nil)
-	} else {
-		r.Response(http.StatusOK, e.SUCCESS, nil)
+		return
 	}
+
+	r.Response(http.StatusOK, e.SUCCESS, nil)
 }

@@ -3,6 +3,7 @@
 package main
 
 import (
+	v0 "KarlMalone/api/routes/v0"
 	v1 "KarlMalone/api/routes/v1"
 	"KarlMalone/cmd/base"
 	"KarlMalone/pkg/logger"
@@ -18,13 +19,14 @@ import (
 // @version 1.0-Beta
 // @contact.name Drew Lee
 // @contact.email skipmaple@gmail.com
-// @license.name Apache 2.0
-// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @license.name MIT License
+// @license.url https://github.com/UncleMaple/Malone/blob/master/LICENSE.md
 
 func main() {
 	logger.Info("start ...")
 
 	base.Server(func(r *gin.Engine) {
+		v0.Handler(r)
 		v1.Handler(r)
 		r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	})

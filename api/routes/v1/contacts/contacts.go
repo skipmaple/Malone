@@ -19,6 +19,7 @@ import (
 
 // @Summary add_friend
 // @Description member add friend
+// @Tags contacts
 // @Accept multipart/form-data
 // @Produce  json
 // @Param owner_id formData string true "OwnerId"
@@ -57,6 +58,7 @@ func addFriend(c *gin.Context) {
 
 // @Summary load_friend
 // @Description load friend list
+// @Tags contacts
 // @Produce  json
 // @Param owner_id query string true "OwnerId"
 // @Success 200 {object} app.Response
@@ -75,6 +77,7 @@ func loadFriend(c *gin.Context) {
 
 // @Summary create_group
 // @Description create group
+// @Tags contacts
 // @Accept multipart/form-data
 // @Produce  json
 // @Param owner_id formData string true "OwnerId"
@@ -102,6 +105,7 @@ func createGroup(c *gin.Context) {
 
 // @Summary join_group
 // @Description join group
+// @Tags contacts
 // @Accept multipart/form-data
 // @Produce  json
 // @Param owner_id formData string true "OwnerId"
@@ -138,6 +142,7 @@ func joinGroup(c *gin.Context) {
 
 // @Summary load_group
 // @Description load group list
+// @Tags contacts
 // @Produce  json
 // @Param owner_id query string true "OwnerId"
 // @Success 200 {object} app.Response
@@ -154,8 +159,9 @@ func loadGroup(c *gin.Context) {
 	r.Response(http.StatusOK, e.SUCCESS, groups)
 }
 
-// @Summary find_group_members
-// @Description find group members by groupId
+// @Summary Find group members
+// @Description Find group members by group_id
+// @Tags contacts
 // @Produce  json
 // @Param group_id query string true "GroupId"
 // @Success 200 {object} app.Response
