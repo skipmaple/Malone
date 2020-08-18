@@ -17,7 +17,7 @@ type Member struct {
 	Account  string `form:"account" json:"account" xml:"account"`
 	Salt     string
 	Online   int
-	Token    string
+	Token    string `form:"token" json:"token" xml:"token"`
 	Memo     string `form:"memo" json:"memo" xml:"memo"`
 
 	CreatedAt int

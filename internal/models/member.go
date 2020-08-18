@@ -32,7 +32,7 @@ type Member struct {
 	Email    string `gorm:"varchar(20)" json:"email" form:"email"`
 	Salt     string `gorm:"varchar(10)" json:"-"`
 	Online   int    `gorm:"int(10)" json:"online"`
-	Token    string `gorm:"varchar(40)" json:"-"`
+	Token    string `gorm:"varchar(150)" json:"token"`
 	Memo     string `gorm:"varchar(150)" json:"memo" form:"memo"`
 }
 
@@ -87,8 +87,9 @@ func LoginMember(data map[string]interface{}) (Member, error) {
 		return Member{}, errors.New("password wrong")
 	}
 
-	// refresh token
-	member.Token = util.GenRandomStr(32)
+	// 刷新token
+	// token过期时间为3小时，客户端需要保存token，token过期之前客户端主动请求刷新
+	member.Token, _ = util.GenerateToken(member.ID)
 	if err := db.Save(&member).Error; err != nil {
 		return Member{}, err
 	}
