@@ -31,7 +31,7 @@ type Member struct {
 	Nickname string `gorm:"varchar(20)" json:"nickname" form:"nickname"`
 	Email    string `gorm:"varchar(20)" json:"email" form:"email"`
 	Salt     string `gorm:"varchar(10)" json:"-"`
-	Online   int    `gorm:"int(10)" json:"online"`
+	Online   int    `gorm:"int(10)" json:"online"` // 0-offline 1-online
 	Token    string `gorm:"varchar(150)" json:"token"`
 	Memo     string `gorm:"varchar(150)" json:"memo" form:"memo"`
 }
@@ -90,11 +90,30 @@ func LoginMember(data map[string]interface{}) (Member, error) {
 	// 刷新token
 	// token过期时间为3小时，客户端需要保存token，token过期之前客户端主动请求刷新
 	member.Token, _ = util.GenerateToken(member.ID)
+	// 更新在线状态
+	member.Online = 1
+
 	if err := db.Save(&member).Error; err != nil {
 		return Member{}, err
 	}
 
 	return member, nil
+}
+
+func LogoutMember(memberId int64) bool {
+	member := Member{}
+	db.First(&member, memberId)
+	// member 不存在 或 处于离线状态
+	if member.ID == 0 || member.Online == 0 {
+		return false
+	}
+
+	member.Online = 0
+	if err := db.Save(&member).Error; err != nil {
+		return false
+	}
+
+	return true
 }
 
 // FindMember provides find member by id

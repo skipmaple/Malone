@@ -51,6 +51,11 @@ func (m *Member) Login() (models.Member, error) {
 	})
 }
 
+// member logout
+func (m *Member) Logout() bool {
+	return models.LogoutMember(m.ID)
+}
+
 // find member by ID
 func (m *Member) Find() models.Member {
 	return models.FindMember(m.ID)

@@ -12,6 +12,7 @@ import (
 
 // Server provides base server pre-config
 func Server(op func(r *gin.Engine)) {
+	//gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	op(r)
 
