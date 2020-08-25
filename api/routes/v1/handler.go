@@ -14,7 +14,11 @@ import (
 
 func Handler(r *gin.Engine) {
 	v1 := r.Group("/v1")
-	v1.Use(middleware.JWT())
+
+	if gin.Mode() == gin.ReleaseMode {
+		v1.Use(middleware.JWT())
+	}
+
 	{
 		attaches.Handler(v1)
 		contacts.Handler(v1)

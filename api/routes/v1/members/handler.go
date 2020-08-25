@@ -9,5 +9,6 @@ import (
 func Handler(r *gin.RouterGroup) {
 	{
 		r.GET("/members/find", find)
+		r.GET("/members/logout", logout)
 	}
 }

@@ -424,4 +424,31 @@ paths:
       summary: Find member by member_id
       tags:
       - member
+  /v1/members/logout:
+    get:
+      description: Logout member by member_id
+      parameters:
+      - description: MemberId
+        in: query
+        name: member_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: Logout member by member_id
+      tags:
+      - member
 swagger: "2.0"
