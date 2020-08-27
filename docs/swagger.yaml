@@ -84,16 +84,16 @@ paths:
     get:
       description: Get a token by member_id in headers
       parameters:
-      - description: Member ID
+      - description: Basic [base64-MemberID]
         in: header
-        name: member_id
+        name: Authorization
         required: true
         type: string
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Created
           schema:
             $ref: '#/definitions/app.Response'
         "400":

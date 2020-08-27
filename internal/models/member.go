@@ -109,6 +109,7 @@ func LogoutMember(memberId int64) bool {
 	}
 
 	member.Online = 0
+	member.Token = ""
 	if err := db.Save(&member).Error; err != nil {
 		return false
 	}

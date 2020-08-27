@@ -138,15 +138,15 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Member ID",
-                        "name": "member_id",
+                        "description": "Basic [base64-MemberID]",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "201": {
+                        "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/app.Response"
                         }

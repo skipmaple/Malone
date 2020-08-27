@@ -16,9 +16,9 @@ import (
 // @Summary Get token
 // @Description Get a token by member_id in headers
 // @Tags auth
-// @Param member_id header string true "Member ID"
+// @Param Authorization header string true "Basic [base64-MemberID]"
 // @Produce  json
-// @Success 200 {object} app.Response
+// @Success 201 {object} app.Response
 // @Failure 400 {object} app.Response
 // @Failure 401 {object} app.Response
 // @Failure 500 {object} app.Response
@@ -40,7 +40,7 @@ func GetToken(c *gin.Context) {
 		return
 	}
 
-	r.Response(http.StatusOK, e.SUCCESS, gin.H{"token": token})
+	r.Response(http.StatusCreated, e.SUCCESS, gin.H{"token": token})
 }
 
 // @Summary Parse token
