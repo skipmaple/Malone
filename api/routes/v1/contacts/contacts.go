@@ -38,17 +38,17 @@ func addFriend(c *gin.Context) {
 	ownerId, _ := strconv.ParseInt(data["owner_id"], 10, 64)
 	dstId, _ := strconv.ParseInt(data["dst_id"], 10, 64)
 
-	friend := models.FindMember(dstId)
-	if friend.ID == 0 {
-		r.Response(http.StatusInternalServerError, e.ERROR_NOT_EXIST_MEMBER, nil)
+	friend, err := models.FindMember(dstId)
+	if err != nil {
+		r.Response(http.StatusNotFound, e.ERROR_NOT_EXIST_MEMBER, nil)
 		return
 	}
 
 	contact := service.Contact{
 		OwnerId: ownerId,
-		DstId:   dstId,
+		DstId:   friend.ID,
 	}
-	err := contact.AddFriend()
+	err = contact.AddFriend()
 	if err != nil {
 		r.Response(http.StatusInternalServerError, e.ERROR_ADD_FRIEND, err)
 	} else {

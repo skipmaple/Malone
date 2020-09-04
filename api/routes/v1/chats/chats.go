@@ -138,7 +138,10 @@ func checkToken(memberId int64, token string) bool {
 	m := service.Member{
 		ID: memberId,
 	}
-	member := m.Find()
+	member, err := m.Find()
+	if err != nil {
+		return false
+	}
 	if member.ID == 0 {
 		return false
 	}

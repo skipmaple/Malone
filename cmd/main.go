@@ -30,6 +30,4 @@ func main() {
 		v1.Handler(r)
 		r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	})
-
-	logger.Info("route start success.")
 }

@@ -42,6 +42,10 @@ paths:
           description: Unauthorized
           schema:
             $ref: '#/definitions/app.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/app.Response'
         "500":
           description: Internal Server Error
           schema:
@@ -84,16 +88,16 @@ paths:
     get:
       description: Get a token by member_id in headers
       parameters:
-      - description: Member ID
+      - description: Basic [base64-MemberID]
         in: header
-        name: member_id
+        name: Authorization
         required: true
         type: string
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Created
           schema:
             $ref: '#/definitions/app.Response'
         "400":
@@ -413,8 +417,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/app.Response'
-        "400":
-          description: Bad Request
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/app.Response'
         "500":

@@ -57,7 +57,7 @@ func (m *Member) Logout() bool {
 }
 
 // find member by ID
-func (m *Member) Find() models.Member {
+func (m *Member) Find() (models.Member, error) {
 	return models.FindMember(m.ID)
 }
 
