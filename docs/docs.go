@@ -69,6 +69,12 @@ var doc = `{
                             "$ref": "#/definitions/app.Response"
                         }
                     },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -626,8 +632,8 @@ var doc = `{
                             "$ref": "#/definitions/app.Response"
                         }
                     },
-                    "400": {
-                        "description": "Bad Request",
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/app.Response"
                         }

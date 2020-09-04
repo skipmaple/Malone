@@ -19,6 +19,7 @@ import (
 // @Success 200 {object} app.Response
 // @Failure 400 {object} app.Response
 // @Failure 401 {object} app.Response
+// @Failure 404 {object} app.Response
 // @Failure 500 {object} app.Response
 // @Router /v0/auth/member_app_info [get]
 func MemberAppInfo(c *gin.Context) {
@@ -31,7 +32,11 @@ func MemberAppInfo(c *gin.Context) {
 
 	// 暂时先返回member信息，后续补全 语言，主题，设备信息等
 	m := service.Member{ID: memberId}
-	member := m.Find()
+	member, err := m.Find()
+	if err != nil {
+		r.Response(http.StatusNotFound, e.ERROR_NOT_EXIST_MEMBER, nil)
+		return
+	}
 
 	r.Response(http.StatusOK, e.SUCCESS, member)
 }

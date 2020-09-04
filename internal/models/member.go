@@ -118,10 +118,14 @@ func LogoutMember(memberId int64) bool {
 }
 
 // FindMember provides find member by id
-func FindMember(memberId int64) Member {
+func FindMember(memberId int64) (Member, error) {
 	member := Member{}
 	db.First(&member, memberId)
-	return member
+	logger.Debug("find member", zap.Int64("query member id", memberId), zap.Int64("res member id", member.ID))
+	if member.ID == 0 {
+		return Member{}, errors.New("member not exist")
+	}
+	return member, nil
 }
 
 // FindMemberByPhoneNum provides member by phone_num

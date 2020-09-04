@@ -18,7 +18,7 @@ import (
 // @Produce  json
 // @Param member_id query string true "MemberId"
 // @Success 200 {object} app.Response
-// @Failure 400 {object} app.Response
+// @Failure 404 {object} app.Response
 // @Failure 500 {object} app.Response
 // @Router /v1/members/find [get]
 func find(c *gin.Context) {
@@ -28,6 +28,10 @@ func find(c *gin.Context) {
 		ID: memberId,
 	}
 
-	member := m.Find()
+	member, err := m.Find()
+	if err != nil {
+		r.Response(http.StatusNotFound, e.ERROR_NOT_EXIST_MEMBER, nil)
+		return
+	}
 	r.Response(http.StatusOK, e.SUCCESS, member)
 }
